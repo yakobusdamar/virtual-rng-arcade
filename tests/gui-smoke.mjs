@@ -3,8 +3,8 @@
 import { chromium } from 'playwright'
 import { mkdirSync, writeFileSync } from 'node:fs'
 
-const BASE = 'http://localhost:4173'
-const OUT = 'docs/bmad/qa/screenshots'
+const BASE = process.env.BASE_URL ?? 'http://localhost:4173'
+const OUT = process.env.SHOT_DIR ?? 'docs/bmad/qa/screenshots'
 mkdirSync(OUT, { recursive: true })
 
 const results = []
@@ -140,7 +140,7 @@ await shot('13-desktop')
 const asideVisible = await page.locator('aside').isVisible()
 check('desktop: side panel visible (md two-column)', asideVisible)
 
-writeFileSync('docs/bmad/qa/gui-results.json', JSON.stringify(results, null, 2))
+writeFileSync(process.env.RESULT_FILE ?? 'docs/bmad/qa/gui-results.json', JSON.stringify(results, null, 2))
 const failed = results.filter((r) => !r.pass)
 console.log(`\nGUI SMOKE: ${results.length - failed.length}/${results.length} checks passed`)
 await browser.close()

@@ -1,6 +1,8 @@
 # Virtual RNG Arcade Simulator
 
-🎰 A simulation & arcade game: reel-spinning RNG fun on the outside, a transparent probability experiment on the inside. **No real money exists anywhere** — SIM COINS and FUN POINTS are fictional, live only in your browser, and can never be bought, sold, or exchanged.
+🎰 **Play it live: <https://yakobusdamar.github.io/virtual-rng-arcade/>**
+
+A simulation & arcade game: reel-spinning RNG fun on the outside, a transparent probability experiment on the inside. **No real money exists anywhere** — SIM COINS and FUN POINTS are fictional, live only in your browser, and can never be bought, sold, or exchanged.
 
 - **NORMAL mode** — free unlimited spins, FUN POINTS for funny combinations (🐔🐔🐔).
 - **CHALLENGE mode 😈** — 100 SIM COINS per spin, fixed visible odds, negative long-term expected value (94.5 per 100 by default), reality checks at 50/100/500 spins.
@@ -16,3 +18,5 @@ npm test          # 55 unit/integration tests + §29 rules audit
 npm run build     # typecheck + production build
 npm run preview   # serve the build
 ```
+
+Deploys to GitHub Pages automatically on every push to `main` (`.github/workflows/deploy-pages.yml` — runs tests, typecheck, and builds with the project-page base path).
