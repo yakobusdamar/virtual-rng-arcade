@@ -1,0 +1,117 @@
+[
+  {
+    "name": "initial: title renders",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "initial: SIM COINS 50,000",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "initial: spin enabled",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "spin: button disabled while resolving",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "spin: result banner appears",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "spin: FUN POINTS increased (§16)",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "challenge: mode label updates",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "challenge: warning banner visible",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "transparency: EV computed 94.5 per 100",
+    "pass": true,
+    "detail": "94.5 SIM COINS per 100 spent"
+  },
+  {
+    "name": "transparency: NEGATIVE expectation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "challenge: cost deducted before animation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "challenge: payout matches displayed outcome",
+    "pass": true,
+    "detail": "delta=50"
+  },
+  {
+    "name": "topup: approval shown with amount",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "stats: normal tab shows spins",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "stats: challenge net shown",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "stats: balance chart rendered",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "achievements: unlocked counter present",
+    "pass": true,
+    "detail": "2 / 11 unlocked"
+  },
+  {
+    "name": "lab: player return ≈ 90% ±12",
+    "pass": true,
+    "detail": "91.6%"
+  },
+  {
+    "name": "lab: adoption toast appears",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "reset: CANCEL preserves coins",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "mobile: no horizontal overflow",
+    "pass": true,
+    "detail": "overflowPx=0"
+  },
+  {
+    "name": "console: zero page errors",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "desktop: side panel visible (md two-column)",
+    "pass": true,
+    "detail": ""
+  }
+]

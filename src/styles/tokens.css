@@ -1,0 +1,210 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   design.md → CSS custom properties + Tailwind v4 @theme
+   ============================================================ */
+
+:root {
+  /* 1.1 Cabinet surfaces */
+  --color-cabinet-950: #07070f;
+  --color-cabinet-900: #0b0b18;
+  --color-cabinet-800: #12122a;
+  --color-cabinet-700: #1a1a3d;
+  --color-cabinet-600: #26264f;
+  --color-line: #2e2e5e;
+  --color-line-bright: #3d3d7a;
+
+  /* 1.2 Neon & signal */
+  --color-neon-pink: #ff2e88;
+  --color-neon-pink-soft: #ff5fa8;
+  --color-neon-cyan: #22d3ee;
+  --color-lab-green: #4ade80;
+  --color-danger-red: #ff5252;
+  --color-warn-amber: #ffb020;
+  --color-info-blue: #38bdf8;
+
+  /* 1.3 Currency — never interchangeable (PRD §29.1) */
+  --color-sim-coin: #ffc94d;
+  --color-sim-coin-deep: #e0a62e;
+  --color-fun-point: #b388ff;
+  --color-fun-point-deep: #8b5cf6;
+
+  /* 1.4 Satirical bank paper */
+  --color-paper-bg: #f3ebd3;
+  --color-paper-ink: #1c1b16;
+  --color-paper-line: #c9be9c;
+  --color-stamp-red: #d64545;
+
+  /* 1.5 Text & state */
+  --color-text-primary: #f4f2ff;
+  --color-text-secondary: #a9a7c9;
+  --color-text-muted: #6e6c96;
+  --color-text-on-accent: #0b0b18;
+  --color-state-win: #4ade80;
+  --color-state-lose: #ff5252;
+  --color-state-jackpot: #ffc94d;
+
+  /* 3 Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* 3 Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* 4 Depth */
+  --shadow-chunky: 4px 4px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-chunky-lg: 6px 6px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-inset-reel: inset 0 2px 14px rgba(0, 0, 0, 0.8);
+  --shadow-overlay: 0 12px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow-pink: 0 0 16px rgba(255, 46, 136, 0.45);
+  --shadow-glow-cyan: 0 0 16px rgba(34, 211, 238, 0.4);
+  --shadow-glow-gold: 0 0 18px rgba(255, 201, 77, 0.45);
+  --shadow-glow-green: 0 0 14px rgba(74, 222, 128, 0.4);
+
+  /* 5 Motion */
+  --motion-instant: 100ms;
+  --motion-fast: 200ms;
+  --motion-base: 300ms;
+  --motion-slow: 500ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-reel-stop: cubic-bezier(0.15, 0.9, 0.25, 1.05);
+  /* PRD §14 locked reel timings */
+  --motion-reel-1: 800ms;
+  --motion-reel-2: 1200ms;
+  --motion-reel-3: 1600ms;
+  --motion-reel-frame: 60ms;
+  --motion-result-flash: 600ms;
+  --motion-count-up: 400ms;
+  --motion-stamp-in: 250ms;
+  --motion-topup-processing: 1800ms;
+
+  /* 6 Z */
+  --z-raised: 10;
+  --z-sticky: 20;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-celebration: 70;
+}
+
+@theme {
+  --font-display: 'Press Start 2P', monospace;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  /* design.md §2 display scale (Press Start 2P renders large — keep small) */
+  --text-display-2xs: 0.625rem;
+  --text-display-2xs--line-height: 1.6;
+  --text-display-sm: 0.75rem;
+  --text-display-sm--line-height: 1.5;
+  --text-display-md: 1rem;
+  --text-display-md--line-height: 1.45;
+  --text-display-lg: 1.25rem;
+  --text-display-lg--line-height: 1.4;
+  --text-display-xl: 1.75rem;
+  --text-display-xl--line-height: 1.35;
+
+  --color-cabinet-950: #07070f;
+  --color-cabinet-900: #0b0b18;
+  --color-cabinet-800: #12122a;
+  --color-cabinet-700: #1a1a3d;
+  --color-cabinet-600: #26264f;
+  --color-line: #2e2e5e;
+  --color-line-bright: #3d3d7a;
+  --color-neon-pink: #ff2e88;
+  --color-neon-pink-soft: #ff5fa8;
+  --color-neon-cyan: #22d3ee;
+  --color-lab-green: #4ade80;
+  --color-danger-red: #ff5252;
+  --color-warn-amber: #ffb020;
+  --color-info-blue: #38bdf8;
+  --color-sim-coin: #ffc94d;
+  --color-sim-coin-deep: #e0a62e;
+  --color-fun-point: #b388ff;
+  --color-fun-point-deep: #8b5cf6;
+  --color-paper-bg: #f3ebd3;
+  --color-paper-ink: #1c1b16;
+  --color-paper-line: #c9be9c;
+  --color-stamp-red: #d64545;
+  --color-text-primary: #f4f2ff;
+  --color-text-secondary: #a9a7c9;
+  --color-text-muted: #6e6c96;
+  --color-text-on-accent: #0b0b18;
+  --color-state-win: #4ade80;
+  --color-state-lose: #ff5252;
+  --color-state-jackpot: #ffc94d;
+
+  --shadow-chunky: 4px 4px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-chunky-lg: 6px 6px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-inset-reel: inset 0 2px 14px rgba(0, 0, 0, 0.8);
+  --shadow-overlay: 0 12px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow-pink: 0 0 16px rgba(255, 46, 136, 0.45);
+  --shadow-glow-cyan: 0 0 16px rgba(34, 211, 238, 0.4);
+  --shadow-glow-gold: 0 0 18px rgba(255, 201, 77, 0.45);
+  --shadow-glow-green: 0 0 14px rgba(74, 222, 128, 0.4);
+
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-reel-stop: cubic-bezier(0.15, 0.9, 0.25, 1.05);
+}
+
+/* Numeric readouts: mono + tabular (design.md §2) */
+.tnum {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rubber stamp (design.md §7) — satirical bank marker, e.g. "SIMULATION ONLY" */
+.stamp {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 3px double var(--color-stamp-red);
+  border-radius: 4px;
+  color: var(--color-stamp-red);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body {
+  background-color: var(--color-cabinet-900);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Screen flash for streak x5 (PRD §17) */
+@keyframes screen-flash {
+  0%, 100% { box-shadow: none; }
+  50% { box-shadow: inset 0 0 80px rgba(255, 201, 77, 0.35); }
+}
+.screen-flash {
+  animation: screen-flash 600ms ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.15s !important;
+    transition-duration: 0.15s !important;
+  }
+}

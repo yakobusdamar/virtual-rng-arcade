@@ -1,0 +1,36 @@
+{
+  "name": "virtual-rng-arcade",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Virtual RNG Arcade Simulator — an entertaining RNG arcade machine that reveals the mathematics behind long-term losing probability. No real money, ever.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/press-start-2p": "^5.1.0",
+    "@fontsource/space-grotesk": "^5.1.0",
+    "@fontsource/space-mono": "^5.1.0",
+    "framer-motion": "^11.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.0",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.6",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.5",
+    "vitest": "^3.0.4"
+  }
+}
