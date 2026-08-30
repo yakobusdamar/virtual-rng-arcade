@@ -155,23 +155,39 @@ Press interaction = translate(2px,2px) + drop to `--shadow-chunky` (chunky shado
 | `--motion-base` | 300ms | Panels, modals |
 | `--motion-slow` | 500ms | Celebrations |
 | `--motion-ease-standard` | `cubic-bezier(.2,.8,.2,1)` | Default |
-| `--motion-ease-bounce` | `cubic-bezier(.34,1.56,.64,1)` | Pops, achievement toast |
-| `--motion-ease-reel-stop` | `cubic-bezier(.15,.9,.25,1.05)` | Reel landing |
+| `--motion-ease-out-expo` | `cubic-bezier(.16,1,.3,1)` | Entrances, pops, win labels (v2: replaces bounce) |
+| `--motion-ease-out-quart` | `cubic-bezier(.25,1,.5,1)` | Shakes, flash settle, count-up |
+| `--motion-ease-reel-stop` | `cubic-bezier(.15,.9,.25,1.05)` | Reel landing (mechanical settle — the one intentional overshoot) |
 
-**Reel timings (locked by PRD §14):**
+**Reel timings (PRD §14 baseline; §14 calls them "suggested", anticipation builds on them):**
 
 | Token | Value |
 | --- | --- |
 | `--motion-reel-1` | 800ms |
 | `--motion-reel-2` | 1200ms |
 | `--motion-reel-3` | 1600ms |
-| `--motion-reel-frame` | 60ms per symbol pass |
+| `--motion-anticipation` | +900ms on reel 3 — challenge BIG/JACKPOT only; pulsing gold ring from reel-2 landing |
+| `--motion-anticipation-soft` | +500ms on reel 3 — normal mode when reels 1–2 match |
+| `--motion-reel-frame` | 60ms per symbol pass (tick SFX every 3rd frame) |
 | `--motion-result-flash` | 600ms |
-| `--motion-count-up` | 400ms |
-| `--motion-stamp-in` | 250ms (scale 2 → 1, rotate −6°, ease-bounce) |
+| `--motion-count-up` | 450ms, out-expo — all currency readouts tick, never jump |
+| `--motion-stamp-in` | 250ms (scale 1.6 → 1, rotate −6°, out-expo) |
 | `--motion-topup-processing` | 1800ms total progress bar |
 
-**`prefers-reduced-motion: reduce`** → reels crossfade (150ms) instead of spin, celebrations become static highlights, chart transitions off. Spin sequence timing (stagger) is preserved.
+**Game-feel layer (v2, inspired by premium slot craft, satirical identity kept):**
+
+| Effect | Spec |
+| --- | --- |
+| Win tiers | `tierOf(outcome)` → 0 none · 1 banner burst (20 particles) · 2 win strip over machine (46 particles) · 3 rays + count-up + screen shake (90) · 4 JACKPOT takeover: rotating rays, dim, confetti (170), big shake, "100% fictional. As always." |
+| Shake | `shake-x` 420ms keyframes on app shell; skipped under reduced motion |
+| Rays | `repeating-conic-gradient`, radial mask, 14s rotation, gold at 16% alpha |
+| Symbol tints | one hue per symbol (§7b); landing = halo flash `cell-land` 450ms + drop-in scale 1.12 → 1 |
+| Ambient | 7 drifting sparkles behind the cabinet (9–15s loops, alpha ≤ .34); radial gold glow behind machine; 4 bezel studs |
+| SPIN idle | sheen sweep every 4.6s; hover scale 1.02; press squash 0.98 + chunky translate |
+| SFX | WebAudio synth, master gain 0.12, muted via `vrng-muted` (🔊/🔇 in header): click, reel ticks, per-reel thud (pitch rises), tier-scaled win arpeggio, jackpot fanfare, coin drop on top-up approval |
+| Streak | 🔥 pulses from x3; amber ember glow at machine bezel edges while streak ≥ 3 |
+
+**`prefers-reduced-motion: reduce`** → reels crossfade (150ms) instead of spin, no shake/particles/rays, count-up renders instantly, celebrations become static highlights. Spin sequence timing (stagger) is preserved.
 
 ---
 
@@ -212,6 +228,23 @@ App is a single column, max-width `480px` on mobile → `960px` two-column (mach
 
 ### Iconography
 Emoji symbols are the game icons (PRD §13): 🍒 🍋 ⭐ 🍀 💎 🐔 🥔 🐟. UI icons are minimal emoji/unicode (🔥 📊 🏆 ⚠️ 🏦). No real brand marks anywhere.
+
+### 7b. Symbol tints (one hue per symbol — presentation only, never payout logic)
+
+| Symbol | Tint | | Symbol | Tint |
+| --- | --- | --- | --- | --- |
+| 🍒 cherry | `#FF5C7A` | | 💎 diamond | `#22D3EE` |
+| 🍋 lemon | `#FFE066` | | 🐔 chicken | `#FFD9A8` |
+| ⭐ star | `#FFC94D` | | 🥔 potato | `#D9A05B` |
+| 🍀 clover | `#6EE7A0` | | 🐟 fish | `#6AA8FF` |
+
+Each reel cell renders a radial halo of its symbol tint (~22% alpha) and flashes `brightness 1.9 → 1` on landing.
+
+### 7c. Machine bezel & ambient
+Gold gradient bezel (`frame-gold-1 → 2 → 3`) wraps the machine panel, 4 glowing studs in the corners, soft radial gold glow behind the shell, 7 drifting sparkles behind the cabinet. This is *our* gold language (arcade bezel), not casino-branding gold; the satire stays: every win overlay says the prize is fictional.
+
+### 7d. SFX
+Synthesized WebAudio (no assets, no network), master gain 0.12, header mute toggle persists to `vrng-muted`. Sounds: button click, reel tick, per-reel landing thud (pitch steps up per reel), win arpeggio scaled by tier, jackpot fanfare, coin-drop on top-up approval, low blip on blocked/insufficient interactions.
 
 ---
 

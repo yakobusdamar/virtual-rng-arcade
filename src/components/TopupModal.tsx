@@ -4,6 +4,7 @@ import { Modal } from './Modal'
 import { useGameStore } from '../store/gameStore'
 import { APPROVAL_MESSAGES, PROCESSING_MESSAGES } from '../engine/messages'
 import { dateGroupLabel, formatClock, formatNumber } from '../utils/format'
+import { sfx } from '../audio/sfx'
 
 type Phase = 'input' | 'processing' | 'approved'
 
@@ -77,6 +78,7 @@ export function TopupModal({ open, onClose }: { open: boolean; onClose: () => vo
     topUpApply(amount)
     setApprovedAmount(amount)
     setApprovalMsg(APPROVAL_MESSAGES[Math.floor(Math.random() * APPROVAL_MESSAGES.length)])
+    sfx.coinDrop()
     pushToast({ emoji: '🏦', title: 'SIMULATION APPROVED', body: `+${formatNumber(amount)} SIM COINS (fictional)` })
     setPhase('approved')
   }

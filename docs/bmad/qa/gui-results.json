@@ -87,7 +87,7 @@
   {
     "name": "lab: player return ≈ 90% ±12",
     "pass": true,
-    "detail": "91.6%"
+    "detail": "90.1%"
   },
   {
     "name": "lab: adoption toast appears",

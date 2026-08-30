@@ -39,7 +39,7 @@ export interface LastOutcome {
   nonce: number
 }
 
-interface PendingOutcome {
+export interface PendingOutcome {
   mode: Mode
   reels: Reels
   category: ChallengeCategory | null
@@ -456,4 +456,10 @@ export function mostCommonSymbol(counts: Record<SymbolId, number>): SymbolId | n
     }
   }
   return best
+}
+
+// QA hook: lets automated GUI tests stage transient outcomes (lastOutcome is
+// transient and never persisted). Local-only app, no security surface.
+if (typeof window !== 'undefined') {
+  ;(window as unknown as { __vrng: typeof useGameStore }).__vrng = useGameStore
 }

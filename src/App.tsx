@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGameStore } from './store/gameStore'
 import { Header } from './components/Header'
 import { ReelMachine } from './components/ReelMachine'
@@ -13,9 +13,21 @@ import { RealityCheckModal } from './components/RealityCheckModal'
 import { ProbabilityExplorer } from './components/ProbabilityExplorer'
 import { ToastLayer } from './components/ToastLayer'
 import { CelebrationLayer } from './components/CelebrationLayer'
+import { WinOverlay } from './components/WinOverlay'
+import { ParticleLayer } from './components/ParticleLayer'
 import { BalanceChart } from './components/BalanceChart'
 import { netResult } from './utils/calculations'
 import { formatNumber, formatSigned } from './utils/format'
+
+const SPARKS = [
+  { left: '6%', dur: '11s', delay: '0s', alpha: 0.3 },
+  { left: '18%', dur: '14s', delay: '3s', alpha: 0.22 },
+  { left: '31%', dur: '9s', delay: '6s', alpha: 0.34 },
+  { left: '47%', dur: '13s', delay: '1.5s', alpha: 0.2 },
+  { left: '63%', dur: '10s', delay: '7.5s', alpha: 0.3 },
+  { left: '78%', dur: '15s', delay: '4.5s', alpha: 0.22 },
+  { left: '91%', dur: '12s', delay: '9s', alpha: 0.32 },
+]
 
 function MiniStatsCard({ onOpenStats }: { onOpenStats: () => void }) {
   const normal = useGameStore((s) => s.normal)
@@ -60,6 +72,7 @@ export default function App() {
   const [labOpen, setLabOpen] = useState(false)
   const [resetOpen, setResetOpen] = useState(false)
   const [flashing, setFlashing] = useState(false)
+  const shellRef = useRef<HTMLDivElement>(null)
 
   // PRD §17: x5 streak screen effect.
   useEffect(() => {
@@ -69,25 +82,95 @@ export default function App() {
     return () => window.clearTimeout(t)
   }, [screenFlashNonce])
 
+  // Win presentation: tier-3+ shakes the cabinet (WAAPI — restartable, no remounts).
+  useEffect(() => {
+    const onShake = (e: Event) => {
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+      const big = (e as CustomEvent<{ big?: boolean }>).detail?.big ?? false
+      shellRef.current?.animate(
+        [
+          { transform: 'translateX(0)' },
+          { transform: `translateX(${big ? -9 : -6}px)` },
+          { transform: `translateX(${big ? 8 : 5}px)` },
+          { transform: `translateX(${big ? -5 : -3}px)` },
+          { transform: 'translateX(0)' },
+        ],
+        { duration: big ? 480 : 360, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' },
+      )
+    }
+    window.addEventListener('vrng-shake', onShake)
+    return () => window.removeEventListener('vrng-shake', onShake)
+  }, [])
+
   return (
-    <div className={`min-h-screen bg-cabinet-900 ${flashing ? 'screen-flash' : ''}`}>
-      <div className="mx-auto flex w-full max-w-[520px] flex-col gap-4 px-3 pb-28 pt-5 md:max-w-[1000px]">
+    <div ref={shellRef} className={`min-h-screen overflow-x-clip bg-cabinet-900 ${flashing ? 'screen-flash' : ''}`}>
+      {/* Ambient cabinet life: slow drifting sparks (design.md §7) */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+        {SPARKS.map((s, i) => (
+          <span
+            key={i}
+            className="sparkle"
+            style={{
+              left: s.left,
+              animationDuration: s.dur,
+              animationDelay: s.delay,
+              ['--spark-alpha' as string]: s.alpha,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-[520px] flex-col gap-4 px-3 pb-28 pt-5 md:max-w-[1000px]">
         <Header onAddCoins={() => setTopupOpen(true)} />
 
         <main className="flex flex-col gap-4 md:grid md:grid-cols-[1fr_320px] md:items-start">
           <section className="flex flex-col gap-4">
-            <div className="rounded-xl border border-line bg-cabinet-800/60 p-4 shadow-chunky-lg">
-              <ReelMachine />
-              <ResultBanner />
+            {/* Gold bezel frame (design.md §7c) + ambient glow behind the machine */}
+            <div className="relative">
               <div
-                data-testid="streak-display"
-                className="tnum mt-1 text-center text-sm font-bold text-warn-amber"
-                aria-live="polite"
+                aria-hidden
+                className="pointer-events-none absolute -inset-8 rounded-[32px]"
+                style={{
+                  background:
+                    'radial-gradient(60% 55% at 50% 42%, rgba(255,201,77,0.09) 0%, transparent 72%)',
+                }}
+              />
+              <div
+                className="relative rounded-xl p-[3px] shadow-chunky-lg"
+                style={{
+                  background:
+                    'linear-gradient(135deg, var(--color-frame-gold-1) 0%, var(--color-frame-gold-2) 28%, var(--color-frame-gold-3) 50%, var(--color-frame-gold-2) 72%, var(--color-frame-gold-1) 100%)',
+                }}
               >
-                {streak > 0 ? `🔥 STREAK: ${streak}` : '—'}
-              </div>
-              <div className="mt-3">
-                <SpinButton />
+                {streak >= 3 && <span aria-hidden className="ember pointer-events-none absolute inset-0 rounded-xl" />}
+                {['left-1 top-1', 'right-1 top-1', 'bottom-1 left-1', 'bottom-1 right-1'].map((pos) => (
+                  <span
+                    key={pos}
+                    aria-hidden
+                    className={`absolute ${pos} z-10 h-1.5 w-1.5 rounded-full bg-frame-gold-3 opacity-80`}
+                    style={{ boxShadow: '0 0 6px rgba(255,201,77,0.8)' }}
+                  />
+                ))}
+                <div className="rounded-[calc(var(--radius-xl)-3px)] border border-line bg-cabinet-900 p-4">
+                  <ReelMachine />
+                  <ResultBanner />
+                  <div
+                    data-testid="streak-display"
+                    className="tnum mt-1 text-center text-sm font-bold text-warn-amber"
+                    aria-live="polite"
+                  >
+                    {streak > 0 ? (
+                      <>
+                        <span className={streak >= 3 ? 'flame' : ''}>🔥</span> STREAK: {streak}
+                      </>
+                    ) : (
+                      '—'
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    <SpinButton />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -142,6 +225,8 @@ export default function App() {
         <RealityCheckModal />
         <ToastLayer />
         <CelebrationLayer />
+        <WinOverlay />
+        <ParticleLayer />
       </div>
     </div>
   )

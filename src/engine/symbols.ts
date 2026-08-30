@@ -30,3 +30,19 @@ export const SYMBOL_LABEL: Record<SymbolId, string> = Object.fromEntries(
 
 /** Symbols used for MEDIUM_WIN triples in Challenge Mode. */
 export const LOW_SYMBOLS: SymbolId[] = ['cherry', 'lemon', 'clover']
+
+/**
+ * Per-symbol tint (design.md §7) — one hue per symbol so each reel cell can
+ * glow in its own color when it lands. Pure presentation: never used by the
+ * engines or the payout logic.
+ */
+export const SYMBOL_TINT: Record<SymbolId, string> = {
+  cherry: '#FF5C7A',
+  lemon: '#FFE066',
+  star: '#FFC94D',
+  clover: '#6EE7A0',
+  diamond: '#22D3EE',
+  chicken: '#FFD9A8',
+  potato: '#D9A05B',
+  fish: '#6AA8FF',
+}

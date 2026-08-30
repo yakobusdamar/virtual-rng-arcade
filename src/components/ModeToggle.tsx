@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useGameStore } from '../store/gameStore'
 import type { Mode } from '../engine/types'
+import { sfx } from '../audio/sfx'
 
 /** PRD §4/§9: active mode always visible; switching never touches stats. */
 export function ModeToggle() {
@@ -12,7 +13,10 @@ export function ModeToggle() {
     return (
       <button
         data-testid={`mode-${value}`}
-        onClick={() => setMode(value)}
+        onClick={() => {
+          if (!active) sfx.click()
+          setMode(value)
+        }}
         className={`relative flex-1 px-3 py-2 font-display text-[9px] transition-colors ${
           active ? 'text-text-on-accent' : 'text-text-muted hover:text-text-secondary'
         }`}
